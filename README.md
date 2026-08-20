@@ -73,3 +73,56 @@ export default async function Page() {
   );
 }
 ```
+# details page
+```tsx
+interface PageProps {
+  params: Promise<{ productid: string }>;
+}
+
+export default async function ProductDetailPage({ params }: PageProps) {
+  // Destructure productid (matches your folder name [productid])
+  const { productid } = await params;
+
+  try {
+    const response = await fetch(`https://dummyjson.com/products/${productid}`);
+
+    if (!response.ok) {
+      return (
+        <div className="p-8 text-center text-red-500">
+          Product #{productid} not found.
+        </div>
+      );
+    }
+
+    const product = await response.json();
+
+    return (
+      <section className="py-24 max-w-4xl mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <img
+            src={product.thumbnail}
+            alt={product.title}
+            className="w-full aspect-square rounded-2xl object-cover bg-gray-100"
+          />
+          <div className="flex flex-col justify-center">
+            <h1 className="text-3xl font-bold mb-4">{product.title}</h1>
+            <p className="text-indigo-600 text-2xl font-semibold mb-4">
+              ${product.price}
+            </p>
+            <p className="text-gray-600 mb-6">{product.description}</p>
+            <span className="text-sm text-gray-500">
+              Category: <strong className="capitalize">{product.category}</strong>
+            </span>
+          </div>
+        </div>
+      </section>
+    );
+  } catch (error) {
+    return (
+      <div className="p-8 text-center text-red-500">
+        Failed to load product.
+      </div>
+    );
+  }
+}
+```
