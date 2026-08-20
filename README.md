@@ -27,7 +27,6 @@ export default async function Page() {
 # The final 
 
 ```tsx
-
 export default async function Page() {
   const response = await fetch("https://dummyjson.com/products");
   const data = await response.json();
@@ -43,7 +42,7 @@ export default async function Page() {
           {data.products.map((product: any) => (
             <a
               key={product.id}
-              href="#"
+              href={`/product/${product.id}`}
               className="mx-auto sm:mr-0 group cursor-pointer lg:mx-auto bg-white transition-all duration-500"
             >
               <div>
