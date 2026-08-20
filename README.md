@@ -24,7 +24,7 @@ export default async function Page() {
   );
 }
 ```
-#the final 
+# The final 
 
 ```tsx
 
