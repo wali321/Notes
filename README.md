@@ -1,8 +1,13 @@
 # Notes
-my notes for personal work
+My personal Next.js notes and references.
 
+---
 
-#  Basic product page with api
+# Basic Product Page with API
+
+## Fetching data from an external API
+
+```tsx
 export default async function Page() {
   const response = await fetch("https://dummyjson.com/products");
   const data = await response.json();
