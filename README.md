@@ -1,31 +1,28 @@
-# Competition Cheatsheet — shadcn/ui + WebGL (Three.js)
+The previous plain-text dump collapsed all the line breaks, so the commands turned into one long ugly line.
+Here’s a clean, properly formatted version that will look good when you paste it into any markdown viewer / Notion / GitHub:
+Markdown# Competition Cheatsheet — shadcn/ui + WebGL (Three.js)
 
 > Only the parts you said you need.  
 > Stack: Next.js App Router + TypeScript + Tailwind + shadcn/ui + Three.js
 
-────────────────────────────────────────────────────────
+---
 
-1. SETUP (do this once before competition)
+## 1. SETUP (do this once before competition)
 
+```bash
 npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir --import-alias "@/*"
 npx shadcn@latest init
 npm install three @types/three
-
-Add the components you’ll actually use:
-
-npx shadcn@latest add button card input textarea label badge separator
+Add the components you’ll actually use
+Bashnpx shadcn@latest add button card input textarea label badge separator
 npx shadcn@latest add navigation-menu sheet dialog form
 npx shadcn@latest add accordion tabs avatar
 npx shadcn@latest add sonner
 npx shadcn@latest add skeleton
 
-────────────────────────────────────────────────────────
-
 2. SHADCN QUICK PATTERNS
-
-Button variants:
-
-import { Button } from "@/components/ui/button"
+Button variants
+tsximport { Button } from "@/components/ui/button"
 
 <Button>Default</Button>
 <Button variant="secondary">Secondary</Button>
@@ -35,11 +32,15 @@ import { Button } from "@/components/ui/button"
 <Button size="lg">Large CTA</Button>
 <Button size="sm">Small</Button>
 <Button size="icon"><Icon /></Button>
-
-
-Card:
-
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card"
+Card
+tsximport {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 
 <Card className="hover:shadow-lg transition-shadow">
@@ -54,18 +55,12 @@ import { Button } from "@/components/ui/button"
     <Button>Learn more</Button>
   </CardFooter>
 </Card>
-
-
-Responsive card grid:
-
-<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+Responsive card grid
+tsx<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
   {items.map(...)}
 </div>
-
-
-Contact Form:
-
-"use client"
+Contact Form
+tsx"use client"
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -79,7 +74,7 @@ export function ContactForm() {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
-    await new Promise(r => setTimeout(r, 800))
+    await new Promise((r) => setTimeout(r, 800))
     toast.success("Message sent!")
     setLoading(false)
   }
@@ -104,21 +99,15 @@ export function ContactForm() {
     </form>
   )
 }
-
-
-In layout.tsx add:
-
-import { Toaster } from "@/components/ui/sonner"
+Don’t forget in layout.tsx:
+tsximport { Toaster } from "@/components/ui/sonner"
 
 <body>
   {children}
   <Toaster />
 </body>
-
-
-Mobile Nav (Sheet):
-
-"use client"
+Mobile Nav (Sheet)
+tsx"use client"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Button } from "@/components/ui/button"
 import { Menu } from "lucide-react"
@@ -145,11 +134,13 @@ export function MobileNav() {
     </Sheet>
   )
 }
-
-
-Accordion (FAQ):
-
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+Accordion (FAQ)
+tsximport {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
 
 <Accordion type="single" collapsible className="w-full">
   <AccordionItem value="item-1">
@@ -158,24 +149,18 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
   </AccordionItem>
 </Accordion>
 
-────────────────────────────────────────────────────────
-
 3. WEBGL / THREE.JS
-
 Rule #1
+
 Never put Three.js in a Server Component.
+
 Always: "use client" + dynamic(..., { ssr: false })
-
-Folder structure:
-
-src/components/three/
+Folder structure
+textsrc/components/three/
 ├── CanvasWrapper.tsx
 └── Scene.tsx
-
-
 CanvasWrapper.tsx
-
-"use client"
+tsx"use client"
 import dynamic from "next/dynamic"
 
 const Scene = dynamic(() => import("./Scene"), {
@@ -192,11 +177,8 @@ export default function CanvasWrapper({ className }: { className?: string }) {
     </div>
   )
 }
-
-
 Scene.tsx (minimal spinning object)
-
-"use client"
+tsx"use client"
 import { useEffect, useRef } from "react"
 import * as THREE from "three"
 
@@ -271,11 +253,8 @@ export default function Scene() {
 
   return <div ref={mountRef} className="h-full w-full" />
 }
-
-
-Usage:
-
-import CanvasWrapper from "@/components/three/CanvasWrapper"
+Usage
+tsximport CanvasWrapper from "@/components/three/CanvasWrapper"
 
 <section>
   <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -284,12 +263,9 @@ import CanvasWrapper from "@/components/three/CanvasWrapper"
   </div>
 </section>
 
-────────────────────────────────────────────────────────
-
 4. COOL VARIATIONS
-
-A. Mouse parallax (add inside useEffect after creating mesh)
-
+A. Mouse parallax
+tsx// inside useEffect, after creating mesh
 const onMouseMove = (e: MouseEvent) => {
   const x = (e.clientX / window.innerWidth) * 2 - 1
   const y = -(e.clientY / window.innerHeight) * 2 + 1
@@ -298,37 +274,35 @@ const onMouseMove = (e: MouseEvent) => {
 }
 window.addEventListener("mousemove", onMouseMove)
 
-// in cleanup:
+// add to cleanup:
 window.removeEventListener("mousemove", onMouseMove)
-
-
 B. Wireframe look
-
-const material = new THREE.MeshBasicMaterial({
+tsxconst material = new THREE.MeshBasicMaterial({
   color: "#a5b4fc",
   wireframe: true,
 })
-
-
 C. Multiple objects
-
-const group = new THREE.Group()
+tsxconst group = new THREE.Group()
 for (let i = 0; i < 5; i++) {
   const geo = new THREE.IcosahedronGeometry(0.4, 0)
-  const mat = new THREE.MeshStandardMaterial({ color: "#818cf8", flatShading: true })
+  const mat = new THREE.MeshStandardMaterial({
+    color: "#818cf8",
+    flatShading: true,
+  })
   const m = new THREE.Mesh(geo, mat)
-  m.position.set((Math.random() - 0.5) * 4, (Math.random() - 0.5) * 3, (Math.random() - 0.5) * 2)
+  m.position.set(
+    (Math.random() - 0.5) * 4,
+    (Math.random() - 0.5) * 3,
+    (Math.random() - 0.5) * 2
+  )
   group.add(m)
 }
 scene.add(group)
 
 // in animate:
 group.rotation.y += 0.003
-
-
 D. Load .glb model
-
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
+tsximport { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 
 const loader = new GLTFLoader()
 loader.load("/models/product.glb", (gltf) => {
@@ -337,24 +311,17 @@ loader.load("/models/product.glb", (gltf) => {
   scene.add(model)
 })
 
-────────────────────────────────────────────────────────
-
 5. PERFORMANCE RULES
 
-- dynamic(..., { ssr: false })          → prevents hydration crash
-- setPixelRatio(Math.min(dpr, 2))       → stops high-DPI phones from melting
-- Always dispose geometry + material + renderer
-- Reserve height on the container       → no layout shift
-- Prefer low-poly (IcosahedronGeometry with detail 1)
-- Don’t put heavy 3D above the fold on mobile if Lighthouse is strict
-
-────────────────────────────────────────────────────────
+RuleWhydynamic(..., { ssr: false })Prevents hydration crashsetPixelRatio(Math.min(dpr, 2))Stops high-DPI phones from meltingAlways dispose geometry + material + rendererAvoids memory leaksReserve height on the containerNo layout shiftPrefer low-poly (IcosahedronGeometry(..., 1))Looks good + runs fast
 
 6. COMPETITION DAY FLOW
 
-1. Scaffold + shadcn init + add Button/Card/Input/Sheet
-2. Build full page with shadcn components
-3. Drop CanvasWrapper into Hero or Features
-4. Tweak mesh color to match primary
-5. Optional: mouse parallax or wireframe
-6. Final 10 min → mobile check + dispose cleanup
+Scaffold + shadcn init + add Button / Card / Input / Sheet
+Build full page with shadcn components
+Drop CanvasWrapper into Hero or Features
+Tweak mesh color to match primary
+Optional: mouse parallax or wireframe
+Final 10 min → mobile check + dispose cleanup
+
+textCopy everything above (including the outer ```markdown) and paste it into a `.md` file or any markdown renderer. It will look clean.
