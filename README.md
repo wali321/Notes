@@ -8,3 +8,5 @@ and shadcnui
 
 ## the best 3d library adn the easiest one 
 Spline
+
+## Backend can be used as strapi
