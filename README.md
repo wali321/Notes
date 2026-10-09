@@ -3,7 +3,7 @@ to place anything on the screen <div className="absolute top-30 left-110">
 
 ## The ui components i use
 https://motion.de
-and shadcnui and refero
+and shadcnui and the alternative free is https://www.reactbits.dev/
 
 
 
