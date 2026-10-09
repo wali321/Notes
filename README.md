@@ -9,5 +9,6 @@ and shadcnui and refero
 
 ## the best 3d library adn the easiest one 
 Spline
+npm install @splinetool/react-spline
 
 ## Backend can be used as strapi
